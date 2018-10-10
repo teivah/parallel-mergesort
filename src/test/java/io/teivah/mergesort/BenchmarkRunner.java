@@ -10,7 +10,7 @@ import static io.teivah.mergesort.Utils.random;
 
 public class BenchmarkRunner {
 
-	private static final int SIZE = 1_000_0;
+	private static final int SIZE = 100_000;
 
 	public static void main(final String[] args) throws Exception {
 		org.openjdk.jmh.Main.main(args);
