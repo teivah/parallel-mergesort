@@ -20,7 +20,7 @@ public class BenchmarkRunner {
 	@Fork(value = 1, warmups = 1)
 	@Warmup(iterations = 1)
 	@Measurement(iterations = 3)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@BenchmarkMode(Mode.AverageTime)
 	public void benchSequential() {
 		final int[] array = random(SIZE);
@@ -31,12 +31,25 @@ public class BenchmarkRunner {
 	@Fork(value = 1, warmups = 1)
 	@Warmup(iterations = 1)
 	@Measurement(iterations = 3)
-	@OutputTimeUnit(TimeUnit.MICROSECONDS)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
 	@BenchmarkMode(Mode.AverageTime)
 	public void benchParallel() {
 		final int[] array = random(SIZE);
 		final ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
 		forkJoinPool.invoke(new ParallelMergeSort(array, 0, array.length - 1));
+		Arrays.parallelSort(array);
+	}
+
+	@Benchmark
+	@Fork(value = 1, warmups = 1)
+	@Warmup(iterations = 1)
+	@Measurement(iterations = 3)
+	@OutputTimeUnit(TimeUnit.MILLISECONDS)
+	@BenchmarkMode(Mode.AverageTime)
+	public void benchParallelSmart() {
+		final int[] array = random(SIZE);
+		final ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
+		forkJoinPool.invoke(new ParallelSmartMergeSort(array, 0, array.length - 1));
 		Arrays.parallelSort(array);
 	}
 }
