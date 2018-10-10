@@ -2,13 +2,17 @@ package io.teivah.mergesort;
 
 import org.openjdk.jmh.annotations.*;
 
+import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 
 import static io.teivah.mergesort.Utils.random;
 
 public class BenchmarkRunner {
-	public static void main(String[] args) throws Exception {
+
+	private static final int SIZE = 1_000_0;
+
+	public static void main(final String[] args) throws Exception {
 		org.openjdk.jmh.Main.main(args);
 	}
 
@@ -19,8 +23,8 @@ public class BenchmarkRunner {
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@BenchmarkMode(Mode.AverageTime)
 	public void benchSequential() {
-		final int[] array = random(1_000_00);
-		new MergeSort().mergesort(array);
+		final int[] array = random(SIZE);
+		MergeSort.mergesort(array);
 	}
 
 	@Benchmark
@@ -30,8 +34,9 @@ public class BenchmarkRunner {
 	@OutputTimeUnit(TimeUnit.MICROSECONDS)
 	@BenchmarkMode(Mode.AverageTime)
 	public void benchParallel() {
-		final int[] array = random(1_000_00);
-		ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
+		final int[] array = random(SIZE);
+		final ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors() - 1);
 		forkJoinPool.invoke(new ParallelMergeSort(array, 0, array.length - 1));
+		Arrays.parallelSort(array);
 	}
 }

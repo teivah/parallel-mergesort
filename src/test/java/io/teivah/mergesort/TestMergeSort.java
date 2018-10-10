@@ -22,7 +22,7 @@ public class TestMergeSort {
 	@Test
 	public void testSequential() {
 		final int[] array = random(1000);
-		new MergeSort().mergesort(array);
+		MergeSort.mergesort(array);
 
 		check(array);
 	}
