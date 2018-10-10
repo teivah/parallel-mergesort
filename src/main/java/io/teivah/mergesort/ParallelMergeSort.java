@@ -5,12 +5,12 @@ import java.util.concurrent.RecursiveAction;
 import static io.teivah.mergesort.Utils.merge;
 
 public class ParallelMergeSort extends RecursiveAction {
-	private int[] array;
-	private int[] helper;
-	private int low;
-	private int high;
+	private final int[] array;
+	private final int[] helper;
+	private final int low;
+	private final int high;
 
-	public ParallelMergeSort(int[] array, int low, int high) {
+	public ParallelMergeSort(final int[] array, final int low, final int high) {
 		this.array = array;
 		helper = new int[array.length];
 		this.low = low;
@@ -20,9 +20,9 @@ public class ParallelMergeSort extends RecursiveAction {
 	@Override
 	protected void compute() {
 		if (low < high) {
-			int middle = (low + high) / 2;
-			ParallelMergeSort left = new ParallelMergeSort(array, low, middle);
-			ParallelMergeSort right = new ParallelMergeSort(array, middle + 1, high);
+			final int middle = (low + high) / 2;
+			final ParallelMergeSort left = new ParallelMergeSort(array, low, middle);
+			final ParallelMergeSort right = new ParallelMergeSort(array, middle + 1, high);
 			invokeAll(left, right);
 			merge(array, helper, low, middle, high);
 		}

@@ -1,12 +1,10 @@
 package io.teivah.mergesort;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public interface Utils {
-	static int[] random(int n) {
-		int[] a = new int[n];
+	static int[] random(final int n) {
+		final int[] a = new int[n];
 
 		for (int i = 0; i < n; i++) {
 			a[i] = new Random().nextInt(n);
@@ -15,7 +13,7 @@ public interface Utils {
 		return a;
 	}
 
-	static void merge(int[] array, int[] helper, int low, int middle, int high) {
+	static void merge(final int[] array, final int[] helper, final int low, final int middle, final int high) {
 		for (int i = low; i <= high; i++) {
 			helper[i] = array[i];
 		}
